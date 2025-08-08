@@ -200,7 +200,7 @@ const handleVerifyOtp = async (e) => {
         isRegistered: isRegistered,
       };
 
-      login(userData); // Store phone + role in context
+      // login(userData); // Store phone + role in context
 
       if (isRegistered) {
         onClose(); // Close login modal
