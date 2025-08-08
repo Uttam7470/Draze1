@@ -569,165 +569,293 @@
 
 
 
-import React, { useEffect, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
-import {
-  FaBed,
-  FaBath,
-  FaMapMarkerAlt,
-  FaRupeeSign,
-  FaEdit,
-} from "react-icons/fa";
+// import React, { useEffect, useState } from "react";
+// import { useParams, Link, useNavigate } from "react-router-dom";
+// import {
+//   FaBed,
+//   FaBath,
+//   FaMapMarkerAlt,
+//   FaRupeeSign,
+//   FaEdit,
+// } from "react-icons/fa";
 
-const tabs = [
-  "Details",
-  "Rooms",
-  "Collection",
-  "Dues",
-  "Expenses",
-  "Maintenance",
-  "Tenant",
-];
+// const tabs = [
+//   "Details",
+//   "Rooms",
+//   "Collection",
+//   "Dues",
+//   "Expenses",
+//   "Maintenance",
+//   "Tenant",
+// ];
+
+// const PropertyDetail = () => {
+//   const { id } = useParams();
+//   const navigate = useNavigate();
+//   const [property, setProperty] = useState(null);
+//   const [loading, setLoading] = useState(true);
+//   const [activeTab, setActiveTab] = useState("Details");
+
+//   useEffect(() => {
+//     const fetchProperty = async () => {
+//       const token = localStorage.getItem("token");
+//       if (!token) {
+//         console.error("No token found.");
+//         return;
+//       }
+
+//       try {
+//         const res = await fetch(
+//           `https://pg-hostel.nearprop.com/api/landlord/property/${id}`,
+//           {
+//             headers: {
+//               Authorization: `Bearer ${token}`,
+//             },
+//           }
+//         );
+
+//         const data = await res.json();
+//         if (data.success && data.property) {
+//           setProperty(data.property);
+//         } else {
+//           console.error("Failed to load property");
+//         }
+//       } catch (error) {
+//         console.error("Error fetching property:", error);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchProperty();
+//   }, [id]);
+
+//   const handleEdit = () => {
+//     navigate(`/landlord/edit-property/${id}`, { state: { property } });
+//   };
+
+//   if (loading) {
+//     return (
+//       <div className="text-center my-10">
+//         <div className="border-t-4 border-indigo-500 w-10 h-10 rounded-full animate-spin mx-auto"></div>
+//       </div>
+//     );
+//   }
+
+//   if (!property) {
+//     return <p className="text-center text-red-500">Property not found.</p>;
+//   }
+
+//   return (
+//     <div className="px-4 py-6 md:px-8 bg-gray-50 min-h-screen">
+//       {/* Tabs */}
+//       <div className="mb-6 flex flex-wrap gap-2 justify-center">
+//         {tabs.map((tab) => (
+//           <button
+//             key={tab}
+//             onClick={() => setActiveTab(tab)}
+//             className={`px-4 py-2 rounded-full text-sm font-medium ${
+//               activeTab === tab
+//                 ? "bg-indigo-600 text-white"
+//                 : "bg-gray-200 text-gray-700"
+//             }`}
+//           >
+//             {tab}
+//           </button>
+//         ))}
+//       </div>
+
+//       {/* Property Detail Card */}
+//       <div className="max-w-4xl mx-auto bg-white shadow rounded p-4">
+//         {/* Images */}
+//         {property.images?.length > 0 ? (
+//           <img
+//             src={property.images[0]}
+//             alt={property.name || "Property Image"}
+//             className="w-full h-64 object-cover rounded mb-4"
+//           />
+//         ) : (
+//           <div className="w-full h-64 bg-gray-200 flex items-center justify-center text-gray-500 rounded mb-4">
+//             No Image Available
+//           </div>
+//         )}
+
+//         <h2 className="text-2xl font-bold text-indigo-700 mb-2">
+//           {property.name}
+//         </h2>
+
+//         <p className="text-gray-600 mb-1 flex items-center">
+//           <FaMapMarkerAlt className="mr-2" />
+//           {property.address}, {property.city}, {property.state} -{" "}
+//           {property.pinCode}
+//         </p>
+
+//         <p className="text-gray-600 mb-1">
+//           <FaRupeeSign className="inline-block mr-1" />
+//           Rent: {property.rent || "N/A"} / month
+//         </p>
+
+//         <p className="text-gray-600 mb-1">
+//           <FaBed className="inline-block mr-1" />
+//           Rooms: {property.totalRooms} | Beds: {property.totalBeds}
+//         </p>
+
+//         <p className="text-gray-600 mb-1">
+//           Type: {property.type} | Furnished:{" "}
+//           {property.furnished ? "Yes" : "No"}
+//         </p>
+
+//         <p className="mt-4 text-gray-700">{property.description || ""}</p>
+
+//         {/* Edit Button */}
+//         <div className="mt-6 flex justify-between items-center">
+//           <Link
+//             to="/landlord/property"
+//             className="text-indigo-600 hover:underline text-sm"
+//           >
+//             ← Back to Properties
+//           </Link>
+
+//           <button
+//             onClick={handleEdit}
+//             className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+//           >
+//             <FaEdit />
+//             Edit Property
+//           </button>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default PropertyDetail;
+
+
+
+
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import {
+  Home,
+  MapPin,
+  Building,
+  BedDouble,
+  Layers,
+  Map,
+  Landmark,
+  LocateFixed,
+} from "lucide-react";
 
 const PropertyDetail = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [property, setProperty] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState("Details");
+
+  const fetchPropertyDetails = async () => {
+    try {
+      const res = await axios.get(
+        `https://pg-hostel.nearprop.com/api/public/property/${id}`
+      );
+      setProperty(res.data.property);
+    } catch (error) {
+      console.error("Error fetching property:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchProperty = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        console.error("No token found.");
-        return;
-      }
-
-      try {
-        const res = await fetch(
-          `https://pg-hostel.nearprop.com/api/landlord/property/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        const data = await res.json();
-        if (data.success && data.property) {
-          setProperty(data.property);
-        } else {
-          console.error("Failed to load property");
-        }
-      } catch (error) {
-        console.error("Error fetching property:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProperty();
+    fetchPropertyDetails();
   }, [id]);
-
-  const handleEdit = () => {
-    navigate(`/landlord/edit-property/${id}`, { state: { property } });
-  };
 
   if (loading) {
     return (
-      <div className="text-center my-10">
-        <div className="border-t-4 border-indigo-500 w-10 h-10 rounded-full animate-spin mx-auto"></div>
+      <div className="flex justify-center items-center h-screen">
+        <div className="text-lg">Loading...</div>
       </div>
     );
   }
 
   if (!property) {
-    return <p className="text-center text-red-500">Property not found.</p>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="text-lg text-red-600">Property not found</div>
+      </div>
+    );
   }
 
   return (
-    <div className="px-4 py-6 md:px-8 bg-gray-50 min-h-screen">
-      {/* Tabs */}
-      <div className="mb-6 flex flex-wrap gap-2 justify-center">
-        {tabs.map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2 rounded-full text-sm font-medium ${
-              activeTab === tab
-                ? "bg-indigo-600 text-white"
-                : "bg-gray-200 text-gray-700"
-            }`}
-          >
-            {tab}
-          </button>
-        ))}
-      </div>
+    <div className="max-w-5xl mx-auto p-6">
+      <h1 className="text-4xl font-bold mb-6 text-center text-gray-800">
+        {property.name}
+      </h1>
 
-      {/* Property Detail Card */}
-      <div className="max-w-4xl mx-auto bg-white shadow rounded p-4">
-        {/* Images */}
-        {property.images?.length > 0 ? (
+      {/* Image section */}
+      <div className="relative overflow-hidden rounded-lg shadow-lg mb-8 group">
+        {property.images?.length > 0 && property.images[0] ? (
           <img
             src={property.images[0]}
-            alt={property.name || "Property Image"}
-            className="w-full h-64 object-cover rounded mb-4"
+            alt={property.name}
+            className="w-full h-80 object-cover transform transition-transform duration-500 group-hover:scale-105"
+            onError={(e) => {
+              e.target.src = "/placeholder.jpg";
+            }}
           />
         ) : (
-          <div className="w-full h-64 bg-gray-200 flex items-center justify-center text-gray-500 rounded mb-4">
+          <div className="w-full h-80 bg-gray-200 flex items-center justify-center text-gray-500">
             No Image Available
           </div>
         )}
+      </div>
 
-        <h2 className="text-2xl font-bold text-indigo-700 mb-2">
-          {property.name}
-        </h2>
-
-        <p className="text-gray-600 mb-1 flex items-center">
-          <FaMapMarkerAlt className="mr-2" />
-          {property.address}, {property.city}, {property.state} -{" "}
-          {property.pinCode}
-        </p>
-
-        <p className="text-gray-600 mb-1">
-          <FaRupeeSign className="inline-block mr-1" />
-          Rent: {property.rent || "N/A"} / month
-        </p>
-
-        <p className="text-gray-600 mb-1">
-          <FaBed className="inline-block mr-1" />
-          Rooms: {property.totalRooms} | Beds: {property.totalBeds}
-        </p>
-
-        <p className="text-gray-600 mb-1">
-          Type: {property.type} | Furnished:{" "}
-          {property.furnished ? "Yes" : "No"}
-        </p>
-
-        <p className="mt-4 text-gray-700">{property.description || ""}</p>
-
-        {/* Edit Button */}
-        <div className="mt-6 flex justify-between items-center">
-          <Link
-            to="/landlord/property"
-            className="text-indigo-600 hover:underline text-sm"
-          >
-            ← Back to Properties
-          </Link>
-
-          <button
-            onClick={handleEdit}
-            className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
-          >
-            <FaEdit />
-            Edit Property
-          </button>
-        </div>
+      {/* Details section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 rounded-lg shadow-lg">
+        <DetailItem icon={<Home className="text-blue-500" />} label="Type" value={property.type} />
+        <DetailItem
+          icon={<MapPin className="text-blue-500" />}
+          label="Address"
+          value={property.location?.address}
+        />
+        <DetailItem
+          icon={<Building className="text-blue-500" />}
+          label="City"
+          value={property.location?.city}
+        />
+        <DetailItem
+          icon={<Landmark className="text-blue-500" />}
+          label="State"
+          value={property.location?.state}
+        />
+        <DetailItem
+          icon={<LocateFixed className="text-blue-500" />}
+          label="Pin Code"
+          value={property.location?.pinCode}
+        />
+        <DetailItem
+          icon={<Layers className="text-blue-500" />}
+          label="Total Rooms"
+          value={property.totalRooms}
+        />
+        <DetailItem
+          icon={<BedDouble className="text-blue-500" />}
+          label="Total Beds"
+          value={property.totalBeds}
+        />
       </div>
     </div>
   );
 };
 
-export default PropertyDetail;
+const DetailItem = ({ icon, label, value }) => (
+  <div className="flex items-center gap-4 bg-gray-50 p-4 rounded hover:bg-gray-100 transition">
+    <div className="text-xl">{icon}</div>
+    <div>
+      <p className="text-sm text-gray-500">{label}</p>
+      <p className="text-lg font-semibold text-gray-800">{value || "N/A"}</p>
+    </div>
+  </div>
+);
 
+export default PropertyDetail;
