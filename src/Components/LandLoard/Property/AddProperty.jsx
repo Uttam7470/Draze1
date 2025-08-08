@@ -499,8 +499,9 @@
 
 
 import React, { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 const AddProperty = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     type: "PG",
@@ -558,6 +559,7 @@ const AddProperty = () => {
       const data = await res.json();
 
       if (data.success) {
+        navigate("/landlord/property");
         setMessage("Property added successfully!");
         setFormData({
           name: "",

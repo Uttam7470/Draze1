@@ -404,20 +404,20 @@ const Property = () => {
                 className="w-full h-48 object-cover"
               />
               <div className="p-4 flex flex-col gap-2 text-sm">
-                <p className="flex items-center font-700" style={{ color: "#5c4eff", fontSize: "18px" }}>
+                {/* <p className="flex items-center font-700" style={{ color: "#5c4eff", fontSize: "18px" }}>
                   <FaRupeeSign className="mr-1" /> {property.rent} / Month
-                </p>
-                <h5 className="font-semibold text-xl">{property.title}</h5>
+                </p> */}
+                <h5 className="font-semibold text-xl">{property.name}</h5>
                 <p className="flex items-center text-gray-600">
-                  <FaMapMarkerAlt className="mr-1" /> {property.city}
+                  <FaMapMarkerAlt className="mr-1" />{property.address} {property.city}{ property.state && `, ${property.pinCode}` }
                 </p>
                 <p className="flex items-center" style={{ color: "#5c4eff" }}>
-                  <FaBed className="mr-1" /> {property.bedrooms} Beds
-                  <FaBath className="ml-4 mr-1" /> {property.bathrooms} Baths
+                  <FaBed className="mr-1" /> {property.totalRooms} Beds
+                  <FaBath className="ml-4 mr-1" /> {property.totalBeds} Baths
                 </p>
                 <p className="text-gray-600">
-                  Type: {property.type} | Furnished:{" "}
-                  {property.furnished ? "Yes" : "No"}
+                  Type: {property.type} 
+                  {/* {property.furnished ? "Yes" : "No"} */}
                 </p>
                 <Link
                   to={`/landlord/property/${property._id}`}
