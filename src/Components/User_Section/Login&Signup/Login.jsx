@@ -191,7 +191,8 @@ const handleVerifyOtp = async (e) => {
       });
 
       console.log("OTP verified:", response.data);
-
+const token = response.data?.token ;
+ localStorage.setItem("token", token); 
       const isRegistered = response.data?.isRegistered || false;
 
       const userData = {
