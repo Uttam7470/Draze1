@@ -471,10 +471,16 @@ function MainPage() {
               For Sell
             </button>
             <button
-              onClick={() => navigate("/hotelbanqute")}
+              onClick={() => navigate("/hotels")}
               className="glow-border-btn"
             >
-              Hotel & Banquet
+              Hotel
+            </button>
+            <button
+              onClick={() => navigate("/banqutes")}
+              className="glow-border-btn"
+            >
+              Banquet
             </button>
             <button
               onClick={() => navigate("/pg")}
@@ -689,84 +695,8 @@ function MainPage() {
 
       {/* Hotels and Banquet Halls */}
 
-      {/* <section className="py-10 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold text-indigo-500 mb-4">
-              Discover Hotels and Banquet Hall
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Explore our curated selection of premium properties, showcasing
-              the best in residential and commercial real estate.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {hotelBanquetData.map((item) => (
-              <div
-                key={item.id}
-                className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden border"
-              >
-                <div className="relative w-full h-48">
-                  <div className="absolute top-2 left-2 bg-yellow-500 text-white text-xs font-bold px-2 py-1 rounded z-10 shadow-lg">
-                    {item?.tag || "Featured"}
-                  </div>
-                  <Swiper
-                    spaceBetween={10}
-                    slidesPerView={1}
-                    loop={true}
-                    autoplay={{ delay: 2000 }}
-                    pagination={false}
-                    navigation={false}
-                    modules={[Autoplay]}
-                    className="w-full h-48"
-                  >
-                    {item.images.map((img, i) => (
-                      <SwiperSlide key={i}>
-                        <img
-                          src={img}
-                          alt={`${item.name}-${i}`}
-                          className="w-full h-48 object-cover"
-                        />
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
-                </div>
-                <div className="p-4 space-y-1">
-                  <h3 className="text-lg font-bold text-blue-700">
-                    {item.name}
-                  </h3>
-                  <p className="text-gray-500 text-sm flex items-center gap-1">
-                    <FaMapMarkerAlt /> {item.location}, {item.city}
-                  </p>
-                  <p className="text-sm">
-                    <span className="font-semibold">Type:</span>{" "}
-                    {item.propertyType}
-                  </p>
-                  {item.bedrooms > 0 && (
-                    <p className="text-sm flex items-center gap-1">
-                      <FaBed /> {item.bedrooms} Bedrooms
-                    </p>
-                  )}
-                  <p className="text-sm flex items-center gap-1">
-                    <FaRupeeSign /> ₹{item.price.toLocaleString()}
-                  </p>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {item.amenities.map((amenity, i) => (
-                      <span
-                        key={i}
-                        className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded"
-                      >
-                        {amenity}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section> */}
-
+      
+{/* 
       <section className="py-10 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-10">
@@ -787,7 +717,7 @@ function MainPage() {
                 state={{ item }}
                 className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden border block"
               >
-                {/* Image Carousel */}
+              
                 <div className="relative w-full h-48">
                   <div className="absolute top-2 left-2 bg-yellow-500 text-white text-xs font-bold px-2 py-1 rounded z-10 shadow-lg">
                     {item?.tag || "Featured"}
@@ -815,7 +745,7 @@ function MainPage() {
                   </Swiper>
                 </div>
 
-                {/* Content */}
+           
                 <div className="p-4 space-y-1">
                   <h3 className="text-lg font-bold text-blue-700">
                     {item.name}
@@ -828,14 +758,14 @@ function MainPage() {
                     {item.propertyType}
                   </p>
 
-                  {/* Conditional Bedrooms */}
+                
                   {item.bedrooms && item.bedrooms > 0 && (
                     <p className="text-sm flex items-center gap-1">
                       <FaBed /> {item.bedrooms} Bedrooms
                     </p>
                   )}
 
-                  {/* Pricing */}
+             
                   <p className="text-sm flex items-center gap-1">
                     <FaRupeeSign /> ₹
                     {item.price
@@ -845,7 +775,7 @@ function MainPage() {
                       : "N/A"}
                   </p>
 
-                  {/* Amenities */}
+               
                   <div className="flex flex-wrap gap-2 mt-2">
                     {item.amenities &&
                       item.amenities.map((amenity, i) => (
@@ -862,7 +792,7 @@ function MainPage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* <section className="py-10 px-6">
       <div className="max-w-6xl mx-auto">

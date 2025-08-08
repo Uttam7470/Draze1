@@ -378,11 +378,11 @@ const Footer = () => {
             <img
               src={drazeLogo}
               alt="Draze Logo"
-              className="w-auto h-8 pt-2 object-contain block"
+              className="w-auto h-10 pt-2 object-contain block"
             />
           </div>
 
-          <p className="text-white text-base opacity-90 leading-relaxed">
+          <p className="text-white text-base opacity-90 leading-relaxed pt-2">
             Your trusted platform for exploring hostels, PGs, banquet halls,
             and premium properties across India. Draze is your smart living
             solution.

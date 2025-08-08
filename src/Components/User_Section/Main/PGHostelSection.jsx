@@ -62,34 +62,46 @@ const fetchData = async () => {
           alt={item.name}
           className="w-full h-48 object-cover"
         />
-        <div className="p-4 space-y-3">
-          <h3 className="text-xl font-bold text-center text-[#5C4EFF]">
-            {item.name}
-          </h3>
-          <p className="flex items-center text-gray-600 text-sm gap-2">
-            <FaMapMarkerAlt className="text-[#5C4EFF]" />
-            {item.location?.city}, {item.location?.area}
-          </p>
-          <p className="flex items-center text-sm gap-2">
-            <FaHome className="text-[#5C4EFF]" />
-            <span className="font-semibold">Type:</span> {item.type}
-          </p>
-          <p className="flex items-center text-sm gap-2">
-            <FaBed className="text-[#5C4EFF]" />
-            <span className="font-semibold">Bedrooms:</span> {item.bedrooms || "N/A"}
-          </p>
-          <p className="flex items-center text-sm gap-2">
-            <FaRupeeSign className="text-[#5C4EFF]" />
-            <span className="font-semibold">Price:</span> ₹{item.rent}/month
-          </p>
-          <div className="flex items-start gap-2 text-sm">
-            <FaCheckCircle className="mt-1 text-[#5C4EFF]" />
-            <div>
-              <span className="font-semibold">Amenities:</span>{" "}
-              {item.amenities?.join(", ") || "Not specified"}
-            </div>
-          </div>
-        </div>
+      
+      <div className="p-6 space-y-4">
+  {/* Title */}
+  <h3 className="text-2xl font-bold text-center text-[#5C4EFF]">
+    {item.name}
+  </h3>
+
+  {/* City & Area */}
+  <div className="flex items-center text-gray-600 text-sm gap-2">
+    <FaMapMarkerAlt className="text-[#5C4EFF]" />
+    <span>{item.location?.city}, {item.location?.area}</span>
+  </div>
+
+  {/* Property Type */}
+  <div className="flex items-center text-sm gap-2 text-gray-700">
+    <FaHome className="text-[#5C4EFF]" />
+    <span className="font-semibold">Type:</span>
+    <span>{item.type}</span>
+  </div>
+
+  {/* Bedrooms */}
+  <div className="flex items-center text-sm gap-2 text-gray-700">
+    <FaBed className="text-[#5C4EFF]" />
+    <span className="font-semibold">Bedrooms:</span>
+    <span>{item.totalRooms || "N/A"}</span>
+  </div>
+
+  {/* Location - Redesigned */}
+  <div className="flex items-start gap-2 text-sm text-gray-700">
+    <FaCheckCircle className="mt-1 text-[#5C4EFF]" />
+    <div>
+      <p>
+        <span className="font-semibold">Location:</span> {item.location?.address}
+      </p>
+      <p>{item.location?.city}, {item.location?.state}</p>
+    </div>
+  </div>
+</div>
+
+
       </Link>
     ))}
   </div>

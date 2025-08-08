@@ -269,7 +269,6 @@
 
 
 
-
 import React, { useState, useEffect } from "react";
 import {
   FaBed,
@@ -390,7 +389,6 @@ const PG = () => {
       {/* Filter Section */}
       <div
         className="max-w-5xl mx-auto mb-8 bg-white/30 backdrop-blur-md border border-blue-500/50 shadow-lg rounded-xl p-4 flex flex-wrap items-center gap-4 justify-center"
-        style={{ boxShadow: "0 0 12px rgba(59,130,246,0.6)", minHeight: "80px" }}
         data-aos="fade-up"
       >
         <input
@@ -400,7 +398,6 @@ const PG = () => {
           value={formData.city}
           onChange={handleFormChange}
           className="border border-blue-500/50 p-2 rounded w-56 bg-white/50 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          style={{ minWidth: 180 }}
         />
 
         <select
@@ -431,19 +428,15 @@ const PG = () => {
         </select>
 
         <button
-          type="button"
           onClick={handleSearch}
           className="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700 shadow-lg"
-          style={{ height: 42 }}
         >
           Search
         </button>
 
         <button
-          type="button"
           onClick={handleReset}
           className="bg-gray-400 text-white px-5 py-2 rounded hover:bg-gray-500"
-          style={{ height: 42 }}
         >
           Reset
         </button>
@@ -478,24 +471,22 @@ const PG = () => {
 
                 <div className="flex flex-wrap text-sm text-gray-700 gap-4 mb-2">
                   <span className="flex items-center gap-1">
-                    <FaBed /> {Math.round(pg.totalBeds / pg.totalRooms) || "N/A"}
+                    <FaBed /> {Math.round(pg.totalBeds / pg.totalRooms) || "N/A"} Beds/Room
                   </span>
                   <span className="flex items-center gap-1">
-                    <FaCar /> N/A
+                    <FaCar /> Parking: N/A
                   </span>
                   <span className="flex items-center gap-1">
-                    <FaRulerCombined /> N/A
+                    <FaRulerCombined /> Size: N/A
                   </span>
                 </div>
 
                 <div className="text-base font-semibold text-black mb-1">
                   ₹ {pg.lowestPrice || "N/A"}
                 </div>
-                {/* <div className="text-yellow-500 text-sm mb-1">
-                  ★★★★★ <span className="text-gray-500">(0 reviews)</span>
-                </div> */}
+
                 <div className="text-sm font-medium text-gray-600 mb-3">
-                  {pg.type}
+                  Type: {pg.type}
                 </div>
 
                 <div className="flex justify-between text-xs text-gray-500">
@@ -529,4 +520,3 @@ const PG = () => {
 };
 
 export default PG;
-

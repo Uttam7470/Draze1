@@ -1,4 +1,4 @@
-// src/components/CardCarousel.jsx
+
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectCoverflow, Navigation, Pagination } from "swiper/modules";

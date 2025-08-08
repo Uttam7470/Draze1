@@ -192,12 +192,6 @@ const Property = () => {
                   Type: {property.type} | Furnished:{" "}
                   {property.furnished ? "Yes" : "No"}
                 </p>
-                {/* <Link
-                  to={`property/${property.id}`}
-                  className="mt-2 inline-block bg-indigo-600 text-white px-4 py-2 rounded text-sm text-center hover:bg-indigo-700"
-                >
-                  View Details
-                </Link> */}
                 <Link
                   to={`/landlord/property/${property.id}`}
                   className="mt-2 inline-block bg-indigo-600 text-white px-4 py-2 rounded text-sm text-center hover:bg-indigo-700"
