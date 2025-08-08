@@ -418,6 +418,7 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../Context/AuthContext";
 import drazeLogo from "../../../assets/logo/drazeLogo.png";
 import logo  from '../../../assets/logo/logo.png'
+import dlogo from '../../../assets/logo/dlogo.jpg'
 import Login from "../Login&Signup/Login";
 import './navbar.css';
 
@@ -470,9 +471,9 @@ function Navbar() {
             {/* Logo */}
             <div className="flex items-center">
               <img
-                src={logo}
+                src={dlogo}
                 alt="Draze Logo"
-                className="h-8 w-auto mr-8 max-w-none"
+                className="h-10 w-auto mr-8 max-w-none bg-white"
               />
             </div>
 
