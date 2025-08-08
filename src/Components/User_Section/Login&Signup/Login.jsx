@@ -142,48 +142,95 @@ import React, { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { useAuth } from "../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import baseurl from "../../../../BaseUrl.js"; 
 
+import axios from "axios";
 function Login({ role, onClose, onRegisterClick, onLoginSuccess }) {
+  
   const navigate = useNavigate();
-
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
 
   const { login } = useAuth();
+const handleSendOtp = async (e) => {
+  e.preventDefault();
 
-  const handleSendOtp = (e) => {
-    e.preventDefault();
-    if (phone.length === 10) {
+  if (phone.length === 10) {
+    try {
+      const response = await axios.post(`${baseurl}/auth/otp/request-otp`, {
+        mobile: phone,
+        userType :"landlord"
+      });
+
+      console.log('OTP sent successfully:', response.data);
       setOtpSent(true);
-    } else {
-      alert("Please enter a valid 10-digit number");
+      
+    } catch (error) {
+      console.error('Error sending OTP:', error);
+      if (error.response && error.response.data) {
+        alert(error.response.data.message || 'Failed to send OTP');
+      } else {
+        alert('Network error while sending OTP');
+      }
     }
-  };
+  } else {
+    alert("Please enter a valid 10-digit number");
+  }
+};
 
-  const handleVerifyOtp = (e) => {
-    e.preventDefault();
-    if (otp.length === 6) {
+const handleVerifyOtp = async (e) => {
+  e.preventDefault();
+
+  if (otp.length === 6) {
+    try {
+      const response = await axios.post(`${baseurl}/auth/otp/verify-otp`, {
+        mobile: phone,
+        otp: otp,
+        userType: role?.toLowerCase() || "user"
+      });
+
+      console.log("OTP verified:", response.data);
+
+      const isRegistered = response.data?.isRegistered || false;
+
       const userData = {
         phone,
         role: role || "User",
-        isRegistered: false,
+        isRegistered: isRegistered,
       };
 
-      login(userData); // store in AuthContext
-      onClose(); // close modal
+      login(userData); // Store phone + role in context
 
-      if (onLoginSuccess) {
-        onLoginSuccess(role || "User"); // <-- This will trigger redirect in Navbar
+      if (isRegistered) {
+        onClose(); // Close login modal
+
+        if (onLoginSuccess) {
+          onLoginSuccess(userData.role); // Navigate or show success
+        }
+      } else {
+        // User is not registered — show registration UI
+        if (onRegisterClick) {
+          onRegisterClick(userData); // You can pass userData to pre-fill mobile
+        }
+        navigate("/signup");
+
       }
 
-      if (!userData.isRegistered && onRegisterClick) {
-        onRegisterClick(); // optional registration logic
+    } catch (error) {
+      console.error("OTP verification failed:", error);
+      if (error.response?.data?.message) {
+        alert(error.response.data.message);
+      } else {
+        alert("Failed to verify OTP");
       }
-    } else {
-      alert("Invalid OTP");
     }
-  };
+  } else {
+    alert("Invalid OTP");
+  }
+};
+
+
 
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[9999]">
