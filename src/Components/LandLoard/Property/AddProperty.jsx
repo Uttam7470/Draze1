@@ -581,103 +581,165 @@ const AddProperty = () => {
     }
   };
 
-  return (
-    <div className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-md mt-10">
-      <h2 className="text-2xl font-bold mb-6 text-center">Add Property</h2>
+ return (
+    <div className=" mx-auto p-6 bg-white shadow-md rounded-lg mt-10">
+      <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Add Property</h2>
       {message && (
-        <p className={`mb-4 text-center font-medium ${message.includes("success") ? "text-green-600" : "text-red-500"}`}>
+        <p
+          className={`mb-4 text-center font-medium ${
+            message.includes('success') ? 'text-green-600' : 'text-red-500'
+          }`}
+          role="alert"
+        >
           {message}
         </p>
       )}
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Property Name"
-            required
-            className="border p-2 rounded w-full"
-          />
-          <select
-            name="type"
-            value={formData.type}
-            onChange={handleChange}
-            className="border p-2 rounded w-full"
-            required
-          >
-            <option value="PG">PG</option>
-            <option value="Hostel">Hostel</option>
-            <option value="Room">Room</option>
-            <option value="Flat">Flat</option>
-            <option value="Hotel">Hotel</option>
-            <option value="Banquet">Banquet</option>
-          </select>
-          <input
-            type="text"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            placeholder="Address"
-            required
-            className="border p-2 rounded w-full"
-          />
-          <input
-            type="text"
-            name="city"
-            value={formData.city}
-            onChange={handleChange}
-            placeholder="City"
-            required
-            className="border p-2 rounded w-full"
-          />
-          <input
-            type="text"
-            name="state"
-            value={formData.state}
-            onChange={handleChange}
-            placeholder="State"
-            required
-            className="border p-2 rounded w-full"
-          />
-          <input
-            type="text"
-            name="pinCode"
-            value={formData.pinCode}
-            onChange={handleChange}
-            placeholder="Pin Code"
-            required
-            className="border p-2 rounded w-full"
-          />
-          <input
-            type="number"
-            name="totalRooms"
-            value={formData.totalRooms}
-            onChange={handleChange}
-            placeholder="Total Rooms"
-            required
-            className="border p-2 rounded w-full"
-          />
-          <input
-            type="number"
-            name="totalBeds"
-            value={formData.totalBeds}
-            onChange={handleChange}
-            placeholder="Total Beds"
-            required
-            className="border p-2 rounded w-full"
-          />
+          <div>
+            <label htmlFor="name" className="block mb-1 font-medium text-gray-700">
+              Property Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Enter property name"
+              required
+              className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label htmlFor="type" className="block mb-1 font-medium text-gray-700">
+              Property Type
+            </label>
+            <select
+              id="type"
+              name="type"
+              value={formData.type}
+              onChange={handleChange}
+              required
+              className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="" disabled>
+                Select property type
+              </option>
+              <option value="PG">PG</option>
+              <option value="Hostel">Hostel</option>
+              <option value="Room">Room</option>
+              <option value="Flat">Flat</option>
+              <option value="Hotel">Hotel</option>
+              <option value="Banquet">Banquet</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="address" className="block mb-1 font-medium text-gray-700">
+              Address
+            </label>
+            <input
+              type="text"
+              id="address"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+              placeholder="Enter address"
+              required
+              className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label htmlFor="city" className="block mb-1 font-medium text-gray-700">
+              City
+            </label>
+            <input
+              type="text"
+              id="city"
+              name="city"
+              value={formData.city}
+              onChange={handleChange}
+              placeholder="Enter city"
+              required
+              className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label htmlFor="state" className="block mb-1 font-medium text-gray-700">
+              State
+            </label>
+            <input
+              type="text"
+              id="state"
+              name="state"
+              value={formData.state}
+              onChange={handleChange}
+              placeholder="Enter state"
+              required
+              className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label htmlFor="pinCode" className="block mb-1 font-medium text-gray-700">
+              Pin Code
+            </label>
+            <input
+              type="text"
+              id="pinCode"
+              name="pinCode"
+              value={formData.pinCode}
+              onChange={handleChange}
+              placeholder="Enter pin code"
+              required
+              pattern="[0-9]{6}"
+              className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label htmlFor="totalRooms" className="block mb-1 font-medium text-gray-700">
+              Total Rooms
+            </label>
+            <input
+              type="number"
+              id="totalRooms"
+              name="totalRooms"
+              value={formData.totalRooms}
+              onChange={handleChange}
+              placeholder="Enter total rooms"
+              required
+              min="1"
+              className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label htmlFor="totalBeds" className="block mb-1 font-medium text-gray-700">
+              Total Beds
+            </label>
+            <input
+              type="number"
+              id="totalBeds"
+              name="totalBeds"
+              value={formData.totalBeds}
+              onChange={handleChange}
+              placeholder="Enter total beds"
+              required
+              min="1"
+              className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
         </div>
 
         <div>
-          <label className="block mb-1 font-medium">Upload Images</label>
+          <label htmlFor="images" className="block mb-1 font-medium text-gray-700">
+            Upload Images
+          </label>
           <input
             type="file"
+            id="images"
             multiple
             accept="image/*"
             onChange={handleImageChange}
-            className="border p-2 rounded w-full"
+            className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
@@ -685,9 +747,9 @@ const AddProperty = () => {
           <button
             type="submit"
             disabled={submitting}
-            className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
           >
-            {submitting ? "Submitting..." : "Add Property"}
+            {submitting ? 'Submitting...' : 'Add Property'}
           </button>
         </div>
       </form>
