@@ -732,10 +732,142 @@
 // export default PropertyDetail;
 
 
+// import React, { useEffect, useState } from "react";
+// import { useParams, Link, useNavigate } from "react-router-dom";
 
 
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+// export default PropertyTabs;
+
+
+// import React, { useEffect, useState } from "react";
+// import { useParams } from "react-router-dom";
+// import axios from "axios";
+// import {
+//   Home,
+//   MapPin,
+//   Building,
+//   BedDouble,
+//   Layers,
+//   Map,
+//   Landmark,
+//   LocateFixed,
+//   Tag,
+// } from "lucide-react";
+
+// const PropertyDetail = () => {
+//   const { id } = useParams();
+//   const [property, setProperty] = useState(null);
+//   const [loading, setLoading] = useState(true);
+
+//   const fetchPropertyDetails = async () => {
+//     try {
+//       const res = await axios.get(
+//         `https://pg-hostel.nearprop.com/api/public/property/${id}`
+//       );
+//       setProperty(res.data.property);
+//     } catch (error) {
+//       console.error("Error fetching property:", error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchPropertyDetails();
+//   }, [id]);
+
+//   if (loading) {
+//     return (
+//       <div className="flex justify-center items-center h-screen">
+//         <div className="text-lg">Loading...</div>
+//       </div>
+//     );
+//   }
+
+//   if (!property) {
+//     return (
+//       <div className="flex justify-center items-center h-screen">
+//         <div className="text-lg text-red-600">Property not found</div>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="max-w-5xl mx-auto p-6">
+//       <h1 className="text-4xl font-bold mb-6 text-center text-gray-800">
+//         {property.name}
+//       </h1>
+
+//       {/* Image section */}
+//       <div className="relative overflow-hidden rounded-lg shadow-lg mb-8 group">
+//         {property.images?.length > 0 && property.images[0] ? (
+//           <img
+//             src={property.images[0]}
+//             alt={property.name}
+//             className="w-full h-80 object-cover transform transition-transform duration-500 group-hover:scale-105"
+//             onError={(e) => {
+//               e.target.src = "/placeholder.jpg";
+//             }}
+//           />
+//         ) : (
+//           <div className="w-full h-80 bg-gray-200 flex items-center justify-center text-gray-500">
+//             No Image Available
+//           </div>
+//         )}
+//       </div>
+
+//       {/* Details section */}
+//       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 rounded-lg shadow-lg">
+//         <DetailItem icon={<Home className="text-blue-500" />} label="Type" value={property.type} />
+//         <DetailItem
+//           icon={<MapPin className="text-blue-500" />}
+//           label="Address"
+//           value={property.location?.address}
+//         />
+//         <DetailItem
+//           icon={<Building className="text-blue-500" />}
+//           label="City"
+//           value={property.location?.city}
+//         />
+//         <DetailItem
+//           icon={<Landmark className="text-blue-500" />}
+//           label="State"
+//           value={property.location?.state}
+//         />
+//         <DetailItem
+//           icon={<LocateFixed className="text-blue-500" />}
+//           label="Pin Code"
+//           value={property.location?.pinCode}
+//         />
+//         <DetailItem
+//           icon={<Layers className="text-blue-500" />}
+//           label="Total Rooms"
+//           value={property.totalRooms}
+//         />
+//         <DetailItem
+//           icon={<BedDouble className="text-blue-500" />}
+//           label="Total Beds"
+//           value={property.totalBeds}
+//         />
+//       </div>
+//     </div>
+//   );
+// };
+
+// const DetailItem = ({ icon, label, value }) => (
+//   <div className="flex items-center gap-4 bg-gray-50 p-4 rounded hover:bg-gray-100 transition">
+//     <div className="text-xl">{icon}</div>
+//     <div>
+//       <p className="text-sm text-gray-500">{label}</p>
+//       <p className="text-lg font-semibold text-gray-800">{value || "N/A"}</p>
+//     </div>
+//   </div>
+// );
+
+// export default PropertyDetail;
+// PropertyManagement.jsx
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import {
   Home,
@@ -743,37 +875,118 @@ import {
   Building,
   BedDouble,
   Layers,
-  Map,
   Landmark,
   LocateFixed,
 } from "lucide-react";
+import { FaBed, FaMapMarkerAlt, FaRupeeSign, FaEdit } from "react-icons/fa";
+
+const tabList = [
+  "Details",
+  "Rooms",
+  "Collection",
+  "Dues",
+  "Expenses",
+  "Maintenance",
+  "Tenant",
+];
 
 const PropertyDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [property, setProperty] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  const fetchPropertyDetails = async () => {
-    try {
-      const res = await axios.get(
-        `https://pg-hostel.nearprop.com/api/public/property/${id}`
-      );
-      setProperty(res.data.property);
-    } catch (error) {
-      console.error("Error fetching property:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [activeTab, setActiveTab] = useState("Details");
 
   useEffect(() => {
+    const fetchPropertyDetails = async () => {
+      try {
+        const res = await axios.get(
+          `https://pg-hostel.nearprop.com/api/public/property/${id}`
+        );
+        console.log("API Response:", res.data); // Debug log
+        setProperty(res.data.property);
+      } catch (error) {
+        console.error("Error fetching property:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchPropertyDetails();
   }, [id]);
+
+  const handleEdit = () => {
+    navigate(`/landlord/edit-property/${id}`, { state: { property } });
+  };
+
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case "Details":
+        return (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 rounded-lg shadow-lg">
+            <DetailItem icon={<Home className="text-blue-500" />} label="Type" value={property?.type} />
+            <DetailItem
+              icon={<MapPin className="text-blue-500" />}
+              label="Address"
+              value={property?.location?.address || property?.address}
+            />
+            <DetailItem
+              icon={<Building className="text-blue-500" />}
+              label="City"
+              value={property?.location?.city || property?.city}
+            />
+            <DetailItem
+              icon={<Landmark className="text-blue-500" />}
+              label="State"
+              value={property?.location?.state || property?.state}
+            />
+            <DetailItem
+              icon={<LocateFixed className="text-blue-500" />}
+              label="Pin Code"
+              value={property?.location?.pinCode || property?.pinCode}
+            />
+            <DetailItem
+              icon={<Layers className="text-blue-500" />}
+              label="Total Rooms"
+              value={property?.totalRooms}
+            />
+            <DetailItem
+              icon={<BedDouble className="text-blue-500" />}
+              label="Total Beds"
+              value={property?.totalBeds}
+            />
+            <div className="col-span-1 md:col-span-2">
+              <p className="text-gray-600 mb-1 flex items-center">
+                <FaRupeeSign className="inline-block mr-1 text-blue-500" />
+                Rent: {property?.rent || "N/A"} / month
+              </p>
+              <p className="text-gray-600 mb-1">
+                Furnished: {property?.furnished ? "Yes" : "No"}
+              </p>
+              <p className="mt-4 text-gray-700">{property?.description || "No description available"}</p>
+            </div>
+          </div>
+        );
+      case "Rooms":
+        return <div className="text-gray-700 p-4">Rooms info goes here...</div>;
+      case "Collection":
+        return <div className="text-gray-700 p-4">Collection details go here...</div>;
+      case "Dues":
+        return <div className="text-gray-700 p-4">Dues details go here...</div>;
+      case "Expenses":
+        return <div className="text-gray-700 p-4">Expenses details go here...</div>;
+      case "Maintenance":
+        return <div className="text-gray-700 p-4">Maintenance details go here...</div>;
+      case "Tenant":
+        return <div className="text-gray-700 p-4">Tenant details go here...</div>;
+      default:
+        return null;
+    }
+  };
 
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <div className="text-lg">Loading...</div>
+        <div className="border-t-4 border-indigo-500 w-10 h-10 rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -787,62 +1000,73 @@ const PropertyDetail = () => {
   }
 
   return (
-    <div className="max-w-5xl mx-auto p-6">
-      <h1 className="text-4xl font-bold mb-6 text-center text-gray-800">
-        {property.name}
-      </h1>
+    <div className="bg-gray-50 min-h-screen">
+      {/* Navbar */}
+      <nav className="bg-white shadow-md sticky top-0 z-10">
+        <div className="max-w-5xl mx-auto px-4 py-4">
+          <div className="flex justify-between items-center">
+            <h1 className="text-2xl font-bold text-gray-800">{property.name}</h1>
+            <div className="flex flex-wrap gap-2">
+              {tabList.map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                    activeTab === tab
+                      ? "bg-indigo-600 text-white shadow"
+                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </nav>
 
-      {/* Image section */}
-      <div className="relative overflow-hidden rounded-lg shadow-lg mb-8 group">
-        {property.images?.length > 0 && property.images[0] ? (
-          <img
-            src={property.images[0]}
-            alt={property.name}
-            className="w-full h-80 object-cover transform transition-transform duration-500 group-hover:scale-105"
-            onError={(e) => {
-              e.target.src = "/placeholder.jpg";
-            }}
-          />
-        ) : (
-          <div className="w-full h-80 bg-gray-200 flex items-center justify-center text-gray-500">
-            No Image Available
+      {/* Main Content */}
+      <div className="max-w-5xl mx-auto p-6">
+        <div className="relative overflow-hidden rounded-lg shadow-lg mb-8 group">
+          {property.images?.length > 0 && property.images[0] ? (
+            <>
+              <img
+                src={property.images[0]}
+                alt={property.name}
+                className="w-full h-80 object-cover transform transition-transform duration-500 group-hover:scale-105"
+                onError={(e) => {
+                  console.error("Image failed to load:", property.images[0]); // Debug log
+                  e.target.src = "/placeholder.jpg";
+                }}
+              />
+              {console.log("Image URL:", property.images[0])} {/* Debug log */}
+            </>
+          ) : (
+            <div className="w-full h-80 bg-gray-200 flex items-center justify-center text-gray-500">
+              No Image Available
+            </div>
+          )}
+        </div>
+
+        {renderTabContent()}
+
+        {activeTab === "Details" && (
+          <div className="mt-6 flex justify-between items-center">
+            <Link
+              to="/landlord/property"
+              className="text-indigo-600 hover:underline text-sm"
+            >
+              ← Back to Properties
+            </Link>
+            <button
+              onClick={handleEdit}
+              className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+            >
+              <FaEdit />
+              Edit Property
+            </button>
           </div>
         )}
-      </div>
-
-      {/* Details section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 rounded-lg shadow-lg">
-        <DetailItem icon={<Home className="text-blue-500" />} label="Type" value={property.type} />
-        <DetailItem
-          icon={<MapPin className="text-blue-500" />}
-          label="Address"
-          value={property.location?.address}
-        />
-        <DetailItem
-          icon={<Building className="text-blue-500" />}
-          label="City"
-          value={property.location?.city}
-        />
-        <DetailItem
-          icon={<Landmark className="text-blue-500" />}
-          label="State"
-          value={property.location?.state}
-        />
-        <DetailItem
-          icon={<LocateFixed className="text-blue-500" />}
-          label="Pin Code"
-          value={property.location?.pinCode}
-        />
-        <DetailItem
-          icon={<Layers className="text-blue-500" />}
-          label="Total Rooms"
-          value={property.totalRooms}
-        />
-        <DetailItem
-          icon={<BedDouble className="text-blue-500" />}
-          label="Total Beds"
-          value={property.totalBeds}
-        />
       </div>
     </div>
   );
